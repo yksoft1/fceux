@@ -1026,7 +1026,8 @@ bool HISTORY::load(EMUFILE *is, unsigned int offset)
 	int i = -1;
 	SNAPSHOT snap;
 	BOOKMARK bookm;
-
+	int total;
+	
 	if (offset)
 	{
 		if (is->fseek(offset, SEEK_SET)) goto error;
@@ -1056,7 +1057,7 @@ bool HISTORY::load(EMUFILE *is, unsigned int offset)
 	if (historyCursorPos > historyTotalItems) goto error;
 	historyStartPos = 0;
 	// read items
-	int total = historyTotalItems;
+	total = historyTotalItems;
 	if (historyTotalItems > historySize)
 	{
 		// user can't afford that much undo levels, skip some items

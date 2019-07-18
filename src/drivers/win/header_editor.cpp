@@ -1,4 +1,5 @@
 
+#include <cmath>
 #include <windows.h>
 #include "common.h"
 #include "fceu.h"

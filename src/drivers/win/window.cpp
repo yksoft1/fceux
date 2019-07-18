@@ -95,6 +95,23 @@ using namespace std;
 #define FCEUX_CONTEXT_TOGGLESUBTITLES   60003
 #define FCEUX_CONTEXT_DUMPSUBTITLES     60004
 
+#ifndef HDF_SORTUP
+#define HDF_SORTUP 0x0400
+#define HDF_SORTDOWN 0x0200
+#endif
+
+#ifndef EDITBALLOONTIP
+typedef struct _tagEDITBALLOONTIP {
+  DWORD   cbStruct;
+  LPCWSTR pszTitle;
+  LPCWSTR pszText;
+  INT     ttiIcon;
+} EDITBALLOONTIP, *PEDITBALLOONTIP;
+#define TTI_ERROR 3
+#define ECM_FIRST 0x1500 // Edit control messages
+#define EM_SHOWBALLOONTIP (ECM_FIRST + 3) // Show a balloon tip associated to the edit control
+#endif
+
 //********************************************************************************
 //Globals
 //********************************************************************************

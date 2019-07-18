@@ -269,6 +269,7 @@ void SELECTION::save(EMUFILE *os, bool really_save)
 // returns true if couldn't load
 bool SELECTION::load(EMUFILE *is, unsigned int offset)
 {
+	int total;
 	if (offset)
 	{
 		if (is->fseek(offset, SEEK_SET)) goto error;
@@ -295,7 +296,7 @@ bool SELECTION::load(EMUFILE *is, unsigned int offset)
 	historyStartPos = 0;
 	// read selections
 	int i;
-	int total = historyTotalItems;
+	total = historyTotalItems;
 	if (historyTotalItems > historySize)
 	{
 		// user can't afford that much undo levels, skip some selections

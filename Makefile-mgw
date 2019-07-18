@@ -1,0 +1,102 @@
+# makefile for mingw32
+#   gcc version 6.3 newer w32api 
+
+CC		=	gcc
+CXX		=	g++
+WINDRES =   windres
+STRIP	=	strip
+RM		=	rm -f
+
+FCEUX_PATH	= src
+
+CFLAGS	=	-O3 -fno-tree-vectorize -Wstrict-overflow=0 -Wstrict-aliasing=0 -Wno-narrowing -DNDEBUG \
+			-D_S9XLUA_H -DPSS_STYLE=2 -D_USE_SHARED_MEMORY_ -DNETWORK \
+			-DFCEUDEF_DEBUGGER -DNOMINMAX -DNEED_MINGW_HACKS -D_WIN32_IE=0x0600 \
+			-I$(FCEUX_PATH) -I$(FCEUX_PATH)/lua/src -I$(FCEUX_PATH)/drivers/win/directx -I$(FCEUX_PATH)/drivers/win/taseditor
+
+CXXFLAGS = -std=gnu++0x -fpermissive $(CFLAGS)
+
+#CFLAGS	+=	$(shell sdl2-config --cflags)
+LFLAGS	= -static -mwindows
+
+TARGET	=	fceuxmgw.exe
+
+CPPSRCS	=	$(wildcard $(FCEUX_PATH)/*.cpp) \
+			$(wildcard $(FCEUX_PATH)/boards/*.cpp) \
+			$(wildcard $(FCEUX_PATH)/boards/*.c) \
+			$(wildcard $(FCEUX_PATH)/input/*.cpp) \
+			$(wildcard $(FCEUX_PATH)/utils/*.cpp) \
+			$(wildcard $(FCEUX_PATH)/utils/*.c) \
+			$(wildcard $(FCEUX_PATH)/drivers/common/*.cpp) \
+			$(wildcard $(FCEUX_PATH)/drivers/common/*.c) \
+			$(wildcard $(FCEUX_PATH)/drivers/win/*.cpp) \
+			$(wildcard $(FCEUX_PATH)/drivers/win/taseditor/*.cpp) \
+			$(FCEUX_PATH)/drivers/win/zlib/adler32.c \
+			$(FCEUX_PATH)/drivers/win/zlib/compress.c \
+			$(FCEUX_PATH)/drivers/win/zlib/crc32.c \
+			$(FCEUX_PATH)/drivers/win/zlib/deflate.c \
+			$(FCEUX_PATH)/drivers/win/zlib/gzio.c \
+			$(FCEUX_PATH)/drivers/win/zlib/infblock.c \
+			$(FCEUX_PATH)/drivers/win/zlib/infcodes.c \
+			$(FCEUX_PATH)/drivers/win/zlib/inffast.c \
+			$(FCEUX_PATH)/drivers/win/zlib/inflate.c \
+			$(FCEUX_PATH)/drivers/win/zlib/inftrees.c \
+			$(FCEUX_PATH)/drivers/win/zlib/infutil.c \
+			$(FCEUX_PATH)/drivers/win/zlib/trees.c \
+			$(FCEUX_PATH)/drivers/win/zlib/uncompr.c \
+			$(FCEUX_PATH)/drivers/win/zlib/zutil.c \
+			$(FCEUX_PATH)/lua/src/lapi.c \
+			$(FCEUX_PATH)/lua/src/lauxlib.c \
+			$(FCEUX_PATH)/lua/src/lbaselib.c \
+			$(FCEUX_PATH)/lua/src/lcode.c \
+			$(FCEUX_PATH)/lua/src/ldblib.c \
+			$(FCEUX_PATH)/lua/src/ldebug.c \
+			$(FCEUX_PATH)/lua/src/ldo.c \
+			$(FCEUX_PATH)/lua/src/ldump.c \
+			$(FCEUX_PATH)/lua/src/lfunc.c \
+			$(FCEUX_PATH)/lua/src/lgc.c \
+			$(FCEUX_PATH)/lua/src/linit.c \
+			$(FCEUX_PATH)/lua/src/liolib.c \
+			$(FCEUX_PATH)/lua/src/llex.c \
+			$(FCEUX_PATH)/lua/src/lmathlib.c \
+			$(FCEUX_PATH)/lua/src/lmem.c \
+			$(FCEUX_PATH)/lua/src/loadlib.c \
+			$(FCEUX_PATH)/lua/src/lobject.c \
+			$(FCEUX_PATH)/lua/src/lopcodes.c \
+			$(FCEUX_PATH)/lua/src/loslib.c \
+			$(FCEUX_PATH)/lua/src/lparser.c \
+			$(FCEUX_PATH)/lua/src/lstate.c \
+			$(FCEUX_PATH)/lua/src/lstring.c \
+			$(FCEUX_PATH)/lua/src/lstrlib.c \
+			$(FCEUX_PATH)/lua/src/ltable.c \
+			$(FCEUX_PATH)/lua/src/ltablib.c \
+			$(FCEUX_PATH)/lua/src/ltm.c \
+			$(FCEUX_PATH)/lua/src/lundump.c \
+			$(FCEUX_PATH)/lua/src/lvm.c \
+			$(FCEUX_PATH)/lua/src/lzio.c \
+			$(FCEUX_PATH)/lua/src/print.c		
+			
+OBJS = $(addsuffix .o,$(basename $(CPPSRCS)))
+LIBS =  -lstdc++ -lm -lrpcrt4 -lcomctl32 -lvfw32 -lwinmm -lws2_32 -lcomdlg32 -lole32 -lgdi32 -loleaut32 -lmsimg32 -ldxguid -lddraw -ldinput
+
+.SUFFIXES: .c.o
+.SUFFIXES: .cpp.o
+.SUFFIXES: .rc.o
+
+all:	$(TARGET)
+
+$(TARGET):	$(OBJS) $(FCEUX_PATH)/drivers/win/res.o
+	$(CC) $(LFLAGS) -g -o $@ $(OBJS) $(FCEUX_PATH)/drivers/win/res.o $(LIBS) 
+	$(STRIP) $@
+
+.c.o:
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+.cpp.o:
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
+$(FCEUX_PATH)/drivers/win/res.o: $(FCEUX_PATH)/drivers/win/res.rc
+	$(WINDRES) -D_WIN32_IE=0x0600 -i $< -o $@
+		
+clean:
+	rm -f $(TARGET) $(OBJS) $(FCEUX_PATH)/drivers/win/res.o

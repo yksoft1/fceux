@@ -20,6 +20,10 @@ extern "C" {
 #define IDC_STATIC (-1)
 #endif
 
+#ifndef IDCLOSE
+#define IDCLOSE (1)
+#endif
+
 #ifdef __cplusplus
 }
 #endif

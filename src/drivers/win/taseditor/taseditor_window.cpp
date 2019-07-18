@@ -24,8 +24,11 @@ Window - User Interface
 #include "../main.h"
 #include "../Win32InputBox.h"
 #include "../taseditor.h"
+#ifndef __MINGW32__   // Old MinGW doesn't have HtmlHelp API
 #include <htmlhelp.h>
+#endif
 #include "../../input.h"	// for EMUCMD
+extern int FCEUD_CommandMapping[EMUCMD_MAX];
 
 //compile for windows 2000 target
 #if (_WIN32_WINNT < 0x501)
@@ -1253,6 +1256,7 @@ INT_PTR CALLBACK TASEditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lP
 					taseditorConfig.enableLuaAutoFunction ^= 1;
 					taseditorWindow.updateCheckedItems();
 					break;
+#ifndef __MINGW32__   // Old MinGW doesn't have HtmlHelp API
 				case ID_HELP_OPEN_MANUAL:
 					{
 						std::string helpFileName = BaseDirectory;
@@ -1260,6 +1264,7 @@ INT_PTR CALLBACK TASEditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lP
 						HtmlHelp(GetDesktopWindow(), helpFileName.c_str(), HH_DISPLAY_TOPIC, (DWORD)NULL);
 						break;
 					}
+#endif
 				case ID_HELP_TOOLTIPS:
 					taseditorConfig.tooltipsEnabled ^= 1;
 					taseditorWindow.updateCheckedItems();

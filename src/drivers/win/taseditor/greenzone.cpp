@@ -203,7 +203,8 @@ bool GREENZONE::clearSavestateAndFreeMemory(unsigned int frame)
 {
 	if (frame < savestates.size() && savestates[frame].size())
 	{
-	    savestates[frame].swap(std::vector<uint8>());
+		std::vector<uint8> a;
+	    savestates[frame].swap(a);
 		return true;
 	} else
 	{
@@ -232,6 +233,8 @@ void GREENZONE::ungreenzoneSelectedFrames()
 
 void GREENZONE::save(EMUFILE *os, int save_type)
 {
+	int frame, size;
+	int last_tick = 0;
 	if (save_type != GREENZONE_SAVING_MODE_NO)
 	{
 		collectCurrentState();		// in case the project is being saved before the greenzone.update() was called within current frame
@@ -247,8 +250,6 @@ void GREENZONE::save(EMUFILE *os, int save_type)
 		// write Playback cursor position
 		write32le(currFrameCounter, os);
 	}
-	int frame, size;
-	int last_tick = 0;
 
 	switch (save_type)
 	{
@@ -347,6 +348,8 @@ void GREENZONE::save(EMUFILE *os, int save_type)
 // returns true if couldn't load
 bool GREENZONE::load(EMUFILE *is, unsigned int offset)
 {
+	int frame = 0, prev_frame = -1, size = 0;
+	int last_tick = 0;
 	free();
 	if (offset)
 	{
@@ -357,8 +360,7 @@ bool GREENZONE::load(EMUFILE *is, unsigned int offset)
 		playback.restartPlaybackFromZeroGround();		// reset Playback cursor to frame 0
 		return false;
 	}
-	int frame = 0, prev_frame = -1, size = 0;
-	int last_tick = 0;
+
 	// read "GREENZONE" string
 	char save_id[GREENZONE_ID_LEN];
 	if ((int)is->fread(save_id, GREENZONE_ID_LEN) < GREENZONE_ID_LEN) goto error;

@@ -145,7 +145,9 @@ void PIANO_ROLL::init()
 	// subclass the whole listview
 	hwndListOldWndProc = (WNDPROC)SetWindowLongPtr(hwndList, GWLP_WNDPROC, (LONG_PTR)listWndProc);
 	// disable Visual Themes for header
+#ifndef __MINGW32__
 	SetWindowTheme(hwndHeader, L"", L"");
+#endif
 	// setup images for the listview
 	hImgList = ImageList_Create(13, 13, ILC_COLOR8 | ILC_MASK, 1, 1);
 	HBITMAP bmp = LoadBitmap(fceu_hInstance, MAKEINTRESOURCE(IDB_PIANO_0));
@@ -1858,6 +1860,9 @@ LRESULT APIENTRY listWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case WM_LBUTTONDOWN:
 		case WM_LBUTTONDBLCLK:
 		{
+#ifndef GET_KEYSTATE_WPARAM
+#define GET_KEYSTATE_WPARAM(wParam) (LOWORD(wParam))
+#endif
 			int fwKeys = GET_KEYSTATE_WPARAM(wParam);
 			bool alt_pressed = (GetKeyState(VK_MENU) < 0);
 			// perform hit test

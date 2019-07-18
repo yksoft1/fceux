@@ -2348,7 +2348,7 @@ INT_PTR CALLBACK DebuggerCallB(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 							case IDC_DEBUGGER_RELOAD_SYMS:
 							{
 								ramBankNamesLoaded = false;
-								for(int i=0;i<ARRAYSIZE(pageNumbersLoaded);i++)
+								for(int i=0;i<32/*ARRAYSIZE(pageNumbersLoaded)*/;i++)
 									pageNumbersLoaded[i] = -1;
 								loadNameFiles();
 								UpdateDebugger(false);
