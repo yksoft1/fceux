@@ -27,8 +27,16 @@ CPPSRCS	=	$(wildcard $(FCEUX_PATH)/*.cpp) \
 			$(wildcard $(FCEUX_PATH)/input/*.cpp) \
 			$(wildcard $(FCEUX_PATH)/utils/*.cpp) \
 			$(wildcard $(FCEUX_PATH)/utils/*.c) \
-			$(wildcard $(FCEUX_PATH)/drivers/common/*.cpp) \
-			$(wildcard $(FCEUX_PATH)/drivers/common/*.c) \
+			$(FCEUX_PATH)/drivers/common/nes_ntsc.c \
+			$(FCEUX_PATH)/drivers/common/args.cpp \
+			$(FCEUX_PATH)/drivers/common/cheat.cpp \
+			$(FCEUX_PATH)/drivers/common/config.cpp \
+			$(FCEUX_PATH)/drivers/common/hq2x.cpp \
+			$(FCEUX_PATH)/drivers/common/hq3x.cpp \
+			$(FCEUX_PATH)/drivers/common/scale2x.cpp \
+			$(FCEUX_PATH)/drivers/common/scale3x.cpp \
+			$(FCEUX_PATH)/drivers/common/scalebit.cpp \
+			$(FCEUX_PATH)/drivers/common/vidblit.cpp \
 			$(wildcard $(FCEUX_PATH)/drivers/win/*.cpp) \
 			$(wildcard $(FCEUX_PATH)/drivers/win/taseditor/*.cpp) \
 			$(FCEUX_PATH)/drivers/win/zlib/adler32.c \

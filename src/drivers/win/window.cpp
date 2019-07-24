@@ -100,7 +100,7 @@ using namespace std;
 #define HDF_SORTDOWN 0x0200
 #endif
 
-#ifndef EDITBALLOONTIP
+#if !defined(_MSC_VER) && defined (__MINGW32__)
 typedef struct _tagEDITBALLOONTIP {
   DWORD   cbStruct;
   LPCWSTR pszTitle;

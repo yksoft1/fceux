@@ -1,0 +1,406 @@
+CC		=	cl -nologo
+CXX		=   cl -nologo
+LD		= 	link
+LIBR	=	lib
+WINDRES =	rc
+
+FCEUX_PATH	= src
+
+CXXFLAGS =  -O2 -MT -EHsc -DNDEBUG -DWIN32 -D__WIN32__ -DMSVC \
+			-D_WIN32_WINNT=0x0501 -D_USE_32BIT_TIME_T -DHAS_vsnprintf \
+			-D_S9XLUA_H -DPSS_STYLE=2 -D_USE_SHARED_MEMORY_ -DNETWORK \
+			-DFCEUDEF_DEBUGGER -DNOMINMAX -DNEED_MINGW_HACKS -D_WIN32_IE=0x0600 \
+			-I$(FCEUX_PATH) -I$(FCEUX_PATH)/lua/src -I$(FCEUX_PATH)/drivers/win/directx -I$(FCEUX_PATH)/drivers/win/taseditor \
+			-I$(FCEUX_PATH)/drivers/win/zlib -Ivc/defaultconfig
+
+
+CFLAGS	=	-O2 -MT -EHsc -DNDEBUG -DWIN32 -D__WIN32__ -DMSVC \
+			-D_WIN32_WINNT=0x0501 -D_USE_32BIT_TIME_T -DHAS_vsnprintf \
+			-D_S9XLUA_H -DPSS_STYLE=2 -D_USE_SHARED_MEMORY_ -DNETWORK \
+			-DFCEUDEF_DEBUGGER -DNOMINMAX -DNEED_MINGW_HACKS -D_WIN32_IE=0x0600 \
+			-I$(FCEUX_PATH) -I$(FCEUX_PATH)/lua/src -I$(FCEUX_PATH)/drivers/win/directx -I$(FCEUX_PATH)/drivers/win/taseditor \
+			-I$(FCEUX_PATH)/drivers/win/zlib
+
+LFLAGS	=	-nologo -SUBSYSTEM:Windows,"5.01" -ENTRY:mainCRTStartup
+
+TARGET	=	fceuxvc.exe
+
+OBJS	=	$(FCEUX_PATH)\asm.obj \
+			$(FCEUX_PATH)\cart.obj \
+			$(FCEUX_PATH)\cheat.obj \
+			$(FCEUX_PATH)\conddebug.obj \
+			$(FCEUX_PATH)\config.obj \
+			$(FCEUX_PATH)\debug.obj \
+			$(FCEUX_PATH)\drawing.obj \
+			$(FCEUX_PATH)\emufile.obj \
+			$(FCEUX_PATH)\fceu.obj \
+			$(FCEUX_PATH)\fds.obj \
+			$(FCEUX_PATH)\file.obj \
+			$(FCEUX_PATH)\filter.obj \
+			$(FCEUX_PATH)\ines.obj \
+			$(FCEUX_PATH)\input.obj \
+			$(FCEUX_PATH)\lua-engine.obj \
+			$(FCEUX_PATH)\movie.obj \
+			$(FCEUX_PATH)\netplay.obj \
+			$(FCEUX_PATH)\nsf.obj \
+			$(FCEUX_PATH)\oldmovie.obj \
+			$(FCEUX_PATH)\palette.obj \
+			$(FCEUX_PATH)\ppu.obj \
+			$(FCEUX_PATH)\sound.obj \
+			$(FCEUX_PATH)\state.obj \
+			$(FCEUX_PATH)\unif.obj \
+			$(FCEUX_PATH)\video.obj \
+			$(FCEUX_PATH)\vsuni.obj \
+			$(FCEUX_PATH)\wave.obj \
+			$(FCEUX_PATH)\x6502.obj \
+			$(FCEUX_PATH)\input\arkanoid.obj \
+			$(FCEUX_PATH)\input\bworld.obj \
+			$(FCEUX_PATH)\input\cursor.obj \
+			$(FCEUX_PATH)\input\fkb.obj \
+			$(FCEUX_PATH)\input\ftrainer.obj \
+			$(FCEUX_PATH)\input\hypershot.obj \
+			$(FCEUX_PATH)\input\mahjong.obj \
+			$(FCEUX_PATH)\input\mouse.obj \
+			$(FCEUX_PATH)\input\oekakids.obj \
+			$(FCEUX_PATH)\input\pec586kb.obj \
+			$(FCEUX_PATH)\input\powerpad.obj \
+			$(FCEUX_PATH)\input\quiz.obj \
+			$(FCEUX_PATH)\input\shadow.obj \
+			$(FCEUX_PATH)\input\snesmouse.obj \
+			$(FCEUX_PATH)\input\suborkb.obj \
+			$(FCEUX_PATH)\input\toprider.obj \
+			$(FCEUX_PATH)\input\zapper.obj \
+			$(FCEUX_PATH)\utils\ConvertUTF.obj \
+			$(FCEUX_PATH)\utils\backward.obj \
+			$(FCEUX_PATH)\utils\crc32.obj \
+			$(FCEUX_PATH)\utils\endian.obj \
+			$(FCEUX_PATH)\utils\general.obj \
+			$(FCEUX_PATH)\utils\guid.obj \
+			$(FCEUX_PATH)\utils\ioapi.obj \
+			$(FCEUX_PATH)\utils\md5.obj \
+			$(FCEUX_PATH)\utils\memory.obj \
+			$(FCEUX_PATH)\utils\unzip.obj \
+			$(FCEUX_PATH)\utils\xstring.obj
+
+OBJS2	= 	$(FCEUX_PATH)\boards\emu2413.obj \
+			$(FCEUX_PATH)\boards\01-222.obj $(FCEUX_PATH)\boards\09-034a.obj $(FCEUX_PATH)\boards\103.obj \
+			$(FCEUX_PATH)\boards\106.obj $(FCEUX_PATH)\boards\108.obj $(FCEUX_PATH)\boards\112.obj \
+			$(FCEUX_PATH)\boards\116.obj \
+			$(FCEUX_PATH)\boards\117.obj \
+			$(FCEUX_PATH)\boards\120.obj \
+			$(FCEUX_PATH)\boards\121.obj \
+			$(FCEUX_PATH)\boards\12in1.obj \
+			$(FCEUX_PATH)\boards\15.obj \
+			$(FCEUX_PATH)\boards\151.obj \
+			$(FCEUX_PATH)\boards\156.obj \
+			$(FCEUX_PATH)\boards\158B.obj \
+			$(FCEUX_PATH)\boards\164.obj \
+			$(FCEUX_PATH)\boards\168.obj \
+			$(FCEUX_PATH)\boards\170.obj \
+			$(FCEUX_PATH)\boards\175.obj \
+			$(FCEUX_PATH)\boards\176.obj \
+			$(FCEUX_PATH)\boards\177.obj \
+			$(FCEUX_PATH)\boards\178.obj \
+			$(FCEUX_PATH)\boards\18.obj \
+			$(FCEUX_PATH)\boards\183.obj \
+			$(FCEUX_PATH)\boards\185.obj \
+			$(FCEUX_PATH)\boards\186.obj \
+			$(FCEUX_PATH)\boards\187.obj \
+			$(FCEUX_PATH)\boards\189.obj \
+			$(FCEUX_PATH)\boards\190.obj \
+			$(FCEUX_PATH)\boards\193.obj \
+			$(FCEUX_PATH)\boards\199.obj \
+			$(FCEUX_PATH)\boards\206.obj \
+			$(FCEUX_PATH)\boards\208.obj \
+			$(FCEUX_PATH)\boards\222.obj \
+			$(FCEUX_PATH)\boards\225.obj \
+			$(FCEUX_PATH)\boards\228.obj \
+			$(FCEUX_PATH)\boards\230.obj \
+			$(FCEUX_PATH)\boards\232.obj \
+			$(FCEUX_PATH)\boards\234.obj \
+			$(FCEUX_PATH)\boards\235.obj \
+			$(FCEUX_PATH)\boards\244.obj \
+			$(FCEUX_PATH)\boards\246.obj \
+			$(FCEUX_PATH)\boards\252.obj \
+			$(FCEUX_PATH)\boards\253.obj \
+			$(FCEUX_PATH)\boards\28.obj \
+			$(FCEUX_PATH)\boards\32.obj \
+			$(FCEUX_PATH)\boards\33.obj \
+			$(FCEUX_PATH)\boards\34.obj \
+			$(FCEUX_PATH)\boards\36.obj \
+			$(FCEUX_PATH)\boards\3d-block.obj \
+			$(FCEUX_PATH)\boards\40.obj \
+			$(FCEUX_PATH)\boards\41.obj \
+			$(FCEUX_PATH)\boards\411120-c.obj \
+			$(FCEUX_PATH)\boards\42.obj \
+			$(FCEUX_PATH)\boards\43.obj \
+			$(FCEUX_PATH)\boards\46.obj \
+			$(FCEUX_PATH)\boards\50.obj \
+			$(FCEUX_PATH)\boards\51.obj \
+			$(FCEUX_PATH)\boards\57.obj \
+			$(FCEUX_PATH)\boards\603-5052.obj \
+			$(FCEUX_PATH)\boards\62.obj \
+			$(FCEUX_PATH)\boards\65.obj \
+			$(FCEUX_PATH)\boards\67.obj \
+			$(FCEUX_PATH)\boards\68.obj \
+			$(FCEUX_PATH)\boards\69.obj \
+			$(FCEUX_PATH)\boards\71.obj \
+			$(FCEUX_PATH)\boards\72.obj \
+			$(FCEUX_PATH)\boards\77.obj \
+			$(FCEUX_PATH)\boards\79.obj \
+			$(FCEUX_PATH)\boards\80.obj \
+			$(FCEUX_PATH)\boards\80013-B.obj \
+			$(FCEUX_PATH)\boards\8157.obj \
+			$(FCEUX_PATH)\boards\82.obj \
+			$(FCEUX_PATH)\boards\8237.obj \
+			$(FCEUX_PATH)\boards\830118C.obj \
+			$(FCEUX_PATH)\boards\88.obj \
+			$(FCEUX_PATH)\boards\8in1.obj \
+			$(FCEUX_PATH)\boards\90.obj \
+			$(FCEUX_PATH)\boards\91.obj \
+			$(FCEUX_PATH)\boards\96.obj \
+			$(FCEUX_PATH)\boards\99.obj \
+			$(FCEUX_PATH)\boards\a9746.obj \
+			$(FCEUX_PATH)\boards\ac-08.obj \
+			$(FCEUX_PATH)\boards\addrlatch.obj \
+			$(FCEUX_PATH)\boards\ax5705.obj \
+			$(FCEUX_PATH)\boards\bandai.obj \
+			$(FCEUX_PATH)\boards\bb.obj \
+			$(FCEUX_PATH)\boards\bmc13in1jy110.obj \
+			$(FCEUX_PATH)\boards\bmc42in1r.obj \
+			$(FCEUX_PATH)\boards\bmc64in1nr.obj \
+			$(FCEUX_PATH)\boards\bmc70in1.obj \
+			$(FCEUX_PATH)\boards\BMW8544.obj \
+			$(FCEUX_PATH)\boards\bonza.obj \
+			$(FCEUX_PATH)\boards\bs-5.obj \
+			$(FCEUX_PATH)\boards\cheapocabra.obj \
+			$(FCEUX_PATH)\boards\cityfighter.obj \
+			$(FCEUX_PATH)\boards\coolboy.obj \
+			$(FCEUX_PATH)\boards\dance2000.obj \
+			$(FCEUX_PATH)\boards\datalatch.obj \
+			$(FCEUX_PATH)\boards\dream.obj \
+			$(FCEUX_PATH)\boards\edu2000.obj \
+			$(FCEUX_PATH)\boards\eh8813a.obj \
+			$(FCEUX_PATH)\boards\et-100.obj \
+			$(FCEUX_PATH)\boards\et-4320.obj \
+			$(FCEUX_PATH)\boards\F-15.obj \
+			$(FCEUX_PATH)\boards\famicombox.obj \
+			$(FCEUX_PATH)\boards\ffe.obj \
+			$(FCEUX_PATH)\boards\fk23c.obj \
+			$(FCEUX_PATH)\boards\ghostbusters63in1.obj \
+			$(FCEUX_PATH)\boards\gs-2004.obj \
+			$(FCEUX_PATH)\boards\gs-2013.obj \
+			$(FCEUX_PATH)\boards\h2288.obj \
+			$(FCEUX_PATH)\boards\hp10xx_hp20xx.obj \
+			$(FCEUX_PATH)\boards\hp898f.obj \
+			$(FCEUX_PATH)\boards\inlnsf.obj \
+			$(FCEUX_PATH)\boards\karaoke.obj \
+			$(FCEUX_PATH)\boards\kof97.obj \
+			$(FCEUX_PATH)\boards\ks7010.obj \
+			$(FCEUX_PATH)\boards\ks7012.obj \
+			$(FCEUX_PATH)\boards\ks7013.obj \
+			$(FCEUX_PATH)\boards\ks7016.obj \
+			$(FCEUX_PATH)\boards\ks7017.obj \
+			$(FCEUX_PATH)\boards\ks7030.obj \
+			$(FCEUX_PATH)\boards\ks7031.obj \
+			$(FCEUX_PATH)\boards\ks7032.obj \
+			$(FCEUX_PATH)\boards\ks7037.obj \
+			$(FCEUX_PATH)\boards\ks7057.obj \
+			$(FCEUX_PATH)\boards\le05.obj \
+			$(FCEUX_PATH)\boards\lh32.obj \
+			$(FCEUX_PATH)\boards\lh53.obj \
+			$(FCEUX_PATH)\boards\malee.obj \
+			$(FCEUX_PATH)\boards\mihunche.obj \
+			$(FCEUX_PATH)\boards\mmc1.obj \
+			$(FCEUX_PATH)\boards\mmc2and4.obj \
+			$(FCEUX_PATH)\boards\mmc3.obj \
+			$(FCEUX_PATH)\boards\mmc5.obj \
+			$(FCEUX_PATH)\boards\n106.obj \
+			$(FCEUX_PATH)\boards\n625092.obj \
+			$(FCEUX_PATH)\boards\novel.obj \
+			$(FCEUX_PATH)\boards\onebus.obj \
+			$(FCEUX_PATH)\boards\pec-586.obj \
+			$(FCEUX_PATH)\boards\rt-01.obj \
+			$(FCEUX_PATH)\boards\sa-9602b.obj \
+			$(FCEUX_PATH)\boards\sachen.obj \
+			$(FCEUX_PATH)\boards\sb-2000.obj \
+			$(FCEUX_PATH)\boards\sc-127.obj \
+			$(FCEUX_PATH)\boards\sheroes.obj \
+			$(FCEUX_PATH)\boards\sl1632.obj \
+			$(FCEUX_PATH)\boards\subor.obj \
+			$(FCEUX_PATH)\boards\super24.obj \
+			$(FCEUX_PATH)\boards\supervision.obj \
+			$(FCEUX_PATH)\boards\t-227-1.obj \
+			$(FCEUX_PATH)\boards\t-262.obj \
+			$(FCEUX_PATH)\boards\tengen.obj \
+			$(FCEUX_PATH)\boards\tf-1201.obj \
+			$(FCEUX_PATH)\boards\transformer.obj \
+			$(FCEUX_PATH)\boards\unrom512.obj \
+			$(FCEUX_PATH)\boards\vrc1.obj \
+			$(FCEUX_PATH)\boards\vrc2and4.obj \
+			$(FCEUX_PATH)\boards\vrc3.obj \
+			$(FCEUX_PATH)\boards\vrc5.obj \
+			$(FCEUX_PATH)\boards\vrc6.obj \
+			$(FCEUX_PATH)\boards\vrc7.obj \
+			$(FCEUX_PATH)\boards\vrc7p.obj \
+			$(FCEUX_PATH)\boards\yoko.obj \
+			$(FCEUX_PATH)\boards\__dummy_mapper.obj
+
+OBJS3	=	$(FCEUX_PATH)\drivers\common\nes_ntsc.obj \
+			$(FCEUX_PATH)\drivers\common\args.obj \
+			$(FCEUX_PATH)\drivers\common\cheat.obj \
+			$(FCEUX_PATH)\drivers\common\config.obj \
+			$(FCEUX_PATH)\drivers\common\hq2x.obj \
+			$(FCEUX_PATH)\drivers\common\hq3x.obj \
+			$(FCEUX_PATH)\drivers\common\scale2x.obj \
+			$(FCEUX_PATH)\drivers\common\scale3x.obj \
+			$(FCEUX_PATH)\drivers\common\scalebit.obj \
+			$(FCEUX_PATH)\drivers\common\vidblit.obj
+			
+OBJS4	=	$(FCEUX_PATH)\drivers\win\archive.obj \
+			$(FCEUX_PATH)\drivers\win\args.obj \
+			$(FCEUX_PATH)\drivers\win\aviout.obj \
+			$(FCEUX_PATH)\drivers\win\cdlogger.obj \
+			$(FCEUX_PATH)\drivers\win\cheat.obj \
+			$(FCEUX_PATH)\drivers\win\common.obj \
+			$(FCEUX_PATH)\drivers\win\config.obj \
+			$(FCEUX_PATH)\drivers\win\debugger.obj \
+			$(FCEUX_PATH)\drivers\win\debuggersp.obj \
+			$(FCEUX_PATH)\drivers\win\directories.obj \
+			$(FCEUX_PATH)\drivers\win\gui.obj \
+			$(FCEUX_PATH)\drivers\win\guiconfig.obj \
+			$(FCEUX_PATH)\drivers\win\header_editor.obj \
+			$(FCEUX_PATH)\drivers\win\help.obj \
+			$(FCEUX_PATH)\drivers\win\input.obj \
+			$(FCEUX_PATH)\drivers\win\joystick.obj \
+			$(FCEUX_PATH)\drivers\win\keyboard.obj \
+			$(FCEUX_PATH)\drivers\win\log.obj \
+			$(FCEUX_PATH)\drivers\win\luaconsole.obj \
+			$(FCEUX_PATH)\drivers\win\main.obj \
+			$(FCEUX_PATH)\drivers\win\mapinput.obj \
+			$(FCEUX_PATH)\drivers\win\memview.obj \
+			$(FCEUX_PATH)\drivers\win\memviewsp.obj \
+			$(FCEUX_PATH)\drivers\win\memwatch.obj \
+			$(FCEUX_PATH)\drivers\win\monitor.obj \
+			$(FCEUX_PATH)\drivers\win\movieoptions.obj \
+			$(FCEUX_PATH)\drivers\win\netplay.obj \
+			$(FCEUX_PATH)\drivers\win\ntview.obj \
+			$(FCEUX_PATH)\drivers\win\OutputDS.obj \
+			$(FCEUX_PATH)\drivers\win\palette.obj \
+			$(FCEUX_PATH)\drivers\win\ppuview.obj \
+			$(FCEUX_PATH)\drivers\win\pref.obj \
+			$(FCEUX_PATH)\drivers\win\ramwatch.obj \
+			$(FCEUX_PATH)\drivers\win\ram_search.obj \
+			$(FCEUX_PATH)\drivers\win\replay.obj \
+			$(FCEUX_PATH)\drivers\win\sound.obj \
+			$(FCEUX_PATH)\drivers\win\state.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor.obj \
+			$(FCEUX_PATH)\drivers\win\texthook.obj \
+			$(FCEUX_PATH)\drivers\win\throttle.obj \
+			$(FCEUX_PATH)\drivers\win\timing.obj \
+			$(FCEUX_PATH)\drivers\win\tracer.obj \
+			$(FCEUX_PATH)\drivers\win\video.obj \
+			$(FCEUX_PATH)\drivers\win\wave.obj \
+			$(FCEUX_PATH)\drivers\win\Win32InputBox.obj \
+			$(FCEUX_PATH)\drivers\win\window.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\bookmark.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\bookmarks.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\branches.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\editor.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\greenzone.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\history.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\inputlog.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\laglog.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\markers.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\markers_manager.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\piano_roll.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\playback.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\popup_display.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\recorder.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\selection.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\snapshot.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\splicer.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\taseditor_config.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\taseditor_lua.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\taseditor_project.obj \
+			$(FCEUX_PATH)\drivers\win\taseditor\taseditor_window.obj \
+			$(FCEUX_PATH)\drivers\win\res.res
+
+OBJSDEP =	$(FCEUX_PATH)\drivers\win\zlib\adler32.obj \
+			$(FCEUX_PATH)\drivers\win\zlib\compress.obj \
+			$(FCEUX_PATH)\drivers\win\zlib\crc32.obj \
+			$(FCEUX_PATH)\drivers\win\zlib\deflate.obj \
+			$(FCEUX_PATH)\drivers\win\zlib\gzio.obj \
+			$(FCEUX_PATH)\drivers\win\zlib\infblock.obj \
+			$(FCEUX_PATH)\drivers\win\zlib\infcodes.obj \
+			$(FCEUX_PATH)\drivers\win\zlib\inffast.obj \
+			$(FCEUX_PATH)\drivers\win\zlib\inflate.obj \
+			$(FCEUX_PATH)\drivers\win\zlib\inftrees.obj \
+			$(FCEUX_PATH)\drivers\win\zlib\infutil.obj \
+			$(FCEUX_PATH)\drivers\win\zlib\trees.obj \
+			$(FCEUX_PATH)\drivers\win\zlib\uncompr.obj \
+			$(FCEUX_PATH)\drivers\win\zlib\zutil.obj \
+			$(FCEUX_PATH)\lua\src\lapi.obj \
+			$(FCEUX_PATH)\lua\src\lauxlib.obj \
+			$(FCEUX_PATH)\lua\src\lbaselib.obj \
+			$(FCEUX_PATH)\lua\src\lcode.obj \
+			$(FCEUX_PATH)\lua\src\ldblib.obj \
+			$(FCEUX_PATH)\lua\src\ldebug.obj \
+			$(FCEUX_PATH)\lua\src\ldo.obj \
+			$(FCEUX_PATH)\lua\src\ldump.obj \
+			$(FCEUX_PATH)\lua\src\lfunc.obj \
+			$(FCEUX_PATH)\lua\src\lgc.obj \
+			$(FCEUX_PATH)\lua\src\linit.obj \
+			$(FCEUX_PATH)\lua\src\liolib.obj \
+			$(FCEUX_PATH)\lua\src\llex.obj \
+			$(FCEUX_PATH)\lua\src\lmathlib.obj \
+			$(FCEUX_PATH)\lua\src\lmem.obj \
+			$(FCEUX_PATH)\lua\src\loadlib.obj \
+			$(FCEUX_PATH)\lua\src\lobject.obj \
+			$(FCEUX_PATH)\lua\src\lopcodes.obj \
+			$(FCEUX_PATH)\lua\src\loslib.obj \
+			$(FCEUX_PATH)\lua\src\lparser.obj \
+			$(FCEUX_PATH)\lua\src\lstate.obj \
+			$(FCEUX_PATH)\lua\src\lstring.obj \
+			$(FCEUX_PATH)\lua\src\lstrlib.obj \
+			$(FCEUX_PATH)\lua\src\ltable.obj \
+			$(FCEUX_PATH)\lua\src\ltablib.obj \
+			$(FCEUX_PATH)\lua\src\ltm.obj \
+			$(FCEUX_PATH)\lua\src\lundump.obj \
+			$(FCEUX_PATH)\lua\src\lvm.obj \
+			$(FCEUX_PATH)\lua\src\lzio.obj \
+			$(FCEUX_PATH)\lua\src\print.obj
+
+!IFDEF LTCG
+CXXFLAGS = $(CXXFLAGS) -GL
+CFLAGS = $(CFLAGS) -GL
+LFLAGS = $(LFLAGS) -LTCG
+!ENDIF
+
+LIBS =  	kernel32.lib user32.lib gdi32.lib comctl32.lib winmm.lib avifil32.lib advapi32.lib shell32.lib \
+			comdlg32.lib ws2_32.lib ole32.lib oleaut32.lib htmlhelp.lib \
+			$(FCEUX_PATH)\drivers\win\directx\ddraw.lib $(FCEUX_PATH)\drivers\win\directx\dsound.lib $(FCEUX_PATH)\drivers\win\directx\dinput.lib $(FCEUX_PATH)\drivers\win\directx\dxguid.lib 
+
+.SUFFIXES: .c.o
+.SUFFIXES: .cpp.o
+
+all: $(TARGET)
+
+$(TARGET):	$(OBJS) $(OBJS2) $(OBJS3) $(OBJS4) $(OBJSDEP)
+	$(LD) $(LFLAGS) -OUT:$@ $(OBJS) $(OBJS2) $(OBJS3) $(OBJS4) $(OBJSDEP) $(LIBS)
+	
+.c.obj:
+	$(CC) $(CFLAGS) -c -Fo$@ $<
+
+.cpp.obj:
+	$(CXX) $(CXXFLAGS) -c -Fo$@ $<
+
+.rc.res: 
+	$(WINDRES) -fo $@ $< 
+	
+clean:
+	del $(TARGET) $(OBJS) 
+	del $(OBJS2)
+	del $(OBJS3)
+	del $(OBJS4)
+	del $(OBJSDEP)
